@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="500" prefWidth="500" xmlns:fx="http://javafx.com/fxml" fx:controller="ku.piii.fxtableoutofbox.FXMLController">
+    <children>
+        <Button layoutX="115" layoutY="80" text="Browse for files..." onAction="#handleButtonAction" fx:id="button" />
+        <Label text="Selected Files: " layoutX="50" layoutY="126" minHeight="16" minWidth="69" fx:id="label" />
+ 
+    <TextField maxHeight="500" maxWidth="1000" layoutX="0" layoutY="160" fx:id="selectedfiles" />
+    </children>
+</AnchorPane>
