@@ -1,5 +1,6 @@
 package ku.piii.musictableviewfxml;
 
+import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.List;
@@ -12,9 +13,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import ku.piii.model.MusicMedia;
 import ku.piii.model.MusicMediaCollection;
 import ku.piii.model.MusicMediaColumnInfo;
@@ -27,6 +31,31 @@ public class FXMLController implements Initializable {
     private final static MusicService MUSIC_SERVICE = MusicServiceFactory.getMusicServiceInstance();
 
     private ObservableList<MusicMedia> dataForTableView;
+    
+    @FXML
+    private Label label;
+
+    @FXML
+    private TextField selectedfiles;
+
+    
+     @FXML
+    private void handleButtonAction(ActionEvent event) {
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
+                new FileChooser.ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(stage);
+        if (selectedFiles != null) {
+            stage.centerOnScreen();
+        }
+        selectedfiles.setText(selectedFiles.toString());
+        
+    }
 
     @FXML
     private Label addressBook;
@@ -35,7 +64,7 @@ public class FXMLController implements Initializable {
     private TableView<MusicMedia> tableView;
 
     @FXML
-    private void handleButtonAction(ActionEvent event) {
+    private void handleButtonAction2(ActionEvent event) {
         final MusicMediaCollection collection = MUSIC_SERVICE
                 .createMusicMediaCollection(Paths.get(pathScannedOnLoad));
         dataForTableView = FXCollections.observableArrayList(collection.getMusic());

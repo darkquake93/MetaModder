@@ -8,8 +8,10 @@ import org.loadui.testfx.GuiTest;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import org.junit.Ignore;
 
 @SuppressWarnings("restriction")
+@Ignore
 public class TestMainApp  extends GuiTest {
 		
 	@Override

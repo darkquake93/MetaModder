@@ -24,6 +24,9 @@
                GridPane.rowIndex="1">
     </TableView>
     <Button GridPane.rowIndex="2" text="Browse for files..." onAction="#handleButtonAction" fx:id="button" />
+    <Label GridPane.rowIndex="3" text="Selected Files: " fx:id="label" />
+    <TextField GridPane.rowIndex="4" fx:id="selectedfiles" />
+    <Button GridPane.rowIndex="5" text="Load Default Collection" onAction="#handleButtonAction2" fx:id="button2" />
     
   
     <MenuBar fx:id="menuBar" onKeyPressed="#handleKeyInput">

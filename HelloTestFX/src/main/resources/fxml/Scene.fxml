@@ -11,6 +11,8 @@
         <Button layoutX="115" layoutY="80" text="Browse for files..." onAction="#handleButtonAction" fx:id="button" />
         <Label text="Selected Files: " layoutX="50" layoutY="126" minHeight="16" minWidth="69" fx:id="label" />
  
-    <TextField maxHeight="500" maxWidth="1000" layoutX="0" layoutY="160" fx:id="selectedfiles" />
+        <TextField maxHeight="500" maxWidth="1000" layoutX="0" layoutY="160" fx:id="selectedfiles" />
+    
+        <Button layoutX="200" layoutY="80" text="Send to Collections" onAction="#handleButtonAction2" fx:id="button2" />
     </children>
 </AnchorPane>

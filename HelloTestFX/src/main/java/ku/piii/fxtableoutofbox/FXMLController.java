@@ -17,34 +17,48 @@ import javafx.stage.Window;
 
 @SuppressWarnings("restriction")
 public class FXMLController implements Initializable {
-    
+
     @FXML
     private Label label;
-    
+
     @FXML
     private TextField selectedfiles;
+
     
-    @FXML
-    private List<File> handleButtonAction(ActionEvent event) {
-Stage stage = new Stage(); 
- FileChooser fileChooser = new FileChooser();
- fileChooser.setTitle("Open Resource File");
- fileChooser.getExtensionFilters().addAll(
-         new ExtensionFilter("Text Files", "*.txt"),
-         new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
-         new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
-         new ExtensionFilter("All Files", "*.*"));
+     @FXML
+    private void handleButtonAction(ActionEvent event) {
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("Text Files", "*.txt"),
+                new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
+                new ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
+                new ExtensionFilter("All Files", "*.*"));
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(stage);
- if (selectedFiles != null) {
-    stage.centerOnScreen();
- }
-selectedfiles.setText(selectedFiles.toString());
- return selectedFiles;
+        if (selectedFiles != null) {
+            stage.centerOnScreen();
+        }
+        selectedfiles.setText(selectedFiles.toString());
+        
     }
- 
-    
+
+    @FXML
+    private void handleButtonAction2(ActionEvent event2) {
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("All Files Test");
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("All Files", "*.*"));
+        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(stage);
+        if (selectedFiles != null) {
+            stage.centerOnScreen();
+        }
+        selectedfiles.setText(selectedFiles.toString());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 }

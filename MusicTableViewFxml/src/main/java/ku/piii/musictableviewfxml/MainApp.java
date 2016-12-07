@@ -16,7 +16,7 @@ public class MainApp extends Application {
         Scene scene = new Scene(parent);
         scene.getStylesheets().add("/styles/Styles.css");
 
-        stage.setTitle("JavaFX and Maven");
+        stage.setTitle("Assignment Testing");
         stage.setScene(scene);
         stage.show();
     }
