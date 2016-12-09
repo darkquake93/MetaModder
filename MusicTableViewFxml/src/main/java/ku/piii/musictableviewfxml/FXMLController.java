@@ -19,6 +19,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.swing.JFileChooser;
 import ku.piii.model.MusicMedia;
 import ku.piii.model.MusicMediaCollection;
 import ku.piii.model.MusicMediaColumnInfo;
@@ -27,34 +28,36 @@ import ku.piii.music.MusicServiceFactory;
 
 public class FXMLController implements Initializable {
 
-    String pathScannedOnLoad = "../test-music-files/collection-A";
     private final static MusicService MUSIC_SERVICE = MusicServiceFactory.getMusicServiceInstance();
 
     private ObservableList<MusicMedia> dataForTableView;
-    
+
     @FXML
     private Label label;
 
     @FXML
-    private TextField selectedfiles;
-
+    private TextField selectedfolder;
     
-     @FXML
+    @FXML
+    private String pathScannedOnLoad;
+
+    @FXML
     private void handleButtonAction(ActionEvent event) {
-        Stage stage = new Stage();
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"),
-                new FileChooser.ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac"),
-                new FileChooser.ExtensionFilter("All Files", "*.*"));
-        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(stage);
-        if (selectedFiles != null) {
-            stage.centerOnScreen();
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Select your Media Library mate");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+            System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+        } else {
+            System.out.println("No Selection ");
         }
-        selectedfiles.setText(selectedFiles.toString());
-        
+        selectedfolder.setText(chooser.getSelectedFile().toString());
+        pathScannedOnLoad = chooser.getSelectedFile().toString();
+
     }
 
     @FXML
