@@ -25,7 +25,7 @@
     </TableView>
     <Button GridPane.rowIndex="2" text="Browse for media library" onAction="#handleButtonAction" fx:id="button" />
     <Label GridPane.rowIndex="3" text="Selected Library Location " fx:id="label" />
-    <TextField GridPane.rowIndex="4" fx:id="selectedfolder" />
+    <TextField GridPane.rowIndex="4" fx:id="selectedfolder" editable="false" />
     <Button GridPane.rowIndex="5" text="Load This Library" onAction="#handleButtonAction2" fx:id="button2" />
     
   

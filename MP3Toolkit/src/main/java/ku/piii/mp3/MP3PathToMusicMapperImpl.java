@@ -25,10 +25,13 @@ public class MP3PathToMusicMapperImpl implements MP3PathToMusicMapper {
 
     private MusicMedia mapTag2(Mp3File mp3, MusicMedia m) {
         ID3v2 tag = mp3.getId3v2Tag();
-        m.setTitle(tag.getTitle());
-        m.setYear(tag.getYear());
-        m.setGenre(tag.getGenreDescription());
+        if (tag != null) {
+            m.setTitle(tag.getTitle());
+            m.setYear(tag.getYear());
+            m.setGenre(tag.getGenreDescription());
+        }
         return m;
+
     }
 
     private enum Tag {

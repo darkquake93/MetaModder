@@ -11,6 +11,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -37,7 +39,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private TextField selectedfolder;
-    
+        
     @FXML
     private String pathScannedOnLoad;
 
@@ -68,6 +70,13 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleButtonAction2(ActionEvent event) {
+        if (pathScannedOnLoad == null) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("Sorry, the path is empty");
+            alert.showAndWait();
+            return;
+        };
+        
         final MusicMediaCollection collection = MUSIC_SERVICE
                 .createMusicMediaCollection(Paths.get(pathScannedOnLoad));
         dataForTableView = FXCollections.observableArrayList(collection.getMusic());
