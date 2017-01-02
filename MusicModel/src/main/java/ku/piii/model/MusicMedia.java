@@ -1,5 +1,8 @@
 package ku.piii.model;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class MusicMedia {
 
     public enum Id3Version {
@@ -13,6 +16,7 @@ public class MusicMedia {
     private String title;
     private String year;
     private String genre;
+    private String name;
 
     public MusicMedia() {
     }
@@ -22,7 +26,10 @@ public class MusicMedia {
     }
 
     public void setPath(String thisPath) {
-        this.path = thisPath;
+        path = thisPath;
+        Path p = Paths.get(path);
+        name = p.getFileName().toString();
+        name = name.substring(0, name.lastIndexOf('.'));
     }
 
     public String getTitle() {
@@ -42,6 +49,10 @@ public class MusicMedia {
 
     public String getYear() {
         return year;
+    }
+    
+    public String getName() {
+        return name;
     }
 
     public void setYear(String year) {

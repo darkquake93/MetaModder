@@ -44,11 +44,10 @@ public class MusicServiceImpl implements MusicService {
 
         final MusicMediaCollection collection = new MusicMediaCollection();
         for (Path p : myVisitor.getListOfMP3Files()) {
-            collection.addMusicMedia(mapper.mapPath(p));
+            MusicMedia musicMedia = mapper.mapPath(p);
+            System.out.println("new music media title is " + musicMedia.getTitle());
+            collection.addMusicMedia(musicMedia);
         }
-
         return collection;
     }
-
-
 }

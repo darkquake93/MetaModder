@@ -40,12 +40,17 @@ public class MusicMediaColumnInfo {
         return this;
     }
 
+    public boolean getVisible() {
+        return visible;
+    }
+    public MusicMediaColumnInfo setVisible(boolean new_visible) {
+        this.visible = new_visible;
+        return this;
+    }
     
+    private boolean visible = true;
     private String heading;
     private int minWidth;
     private String property;
-    
- 
-    
     
 }

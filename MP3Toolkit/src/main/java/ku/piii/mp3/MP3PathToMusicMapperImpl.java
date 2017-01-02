@@ -45,39 +45,22 @@ public class MP3PathToMusicMapperImpl implements MP3PathToMusicMapper {
             throw new IllegalArgumentException();
         }
 
+        String path = mp3File.toString();
         MusicMedia m = new MusicMedia();
-        m.setPath(mp3File.toString());
+        m.setPath(path);
 
         try {
 
-            Mp3File mp3 = new Mp3File(mp3File.toString());
-            Tag mp3TagType = getTag(mp3);
-
-            switch (mp3TagType) {
-
-                case T1:
-                    m = mapTag1(mp3, m);
-                    break;
-
-                case T2:
-                    m = mapTag2(mp3, m);
-                    break;
-
-            }
+            Mp3File mp3 = new Mp3File(path);
+            m = mp3.hasId3v1Tag()
+                    ? mapTag1(mp3, m)
+                    : mapTag2(mp3, m);
 
         } catch (IOException | UnsupportedTagException | InvalidDataException ex) {
             Logger.getLogger(MP3PathToMusicMapperImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return m;
-    }
-
-    private Tag getTag(Mp3File mp3) {
-        if (mp3.hasId3v1Tag()) {
-            return Tag.T1;
-        } else {
-            return Tag.T2;
-        }
     }
 
 }

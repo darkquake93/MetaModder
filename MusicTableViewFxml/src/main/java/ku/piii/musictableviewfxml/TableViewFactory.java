@@ -5,6 +5,7 @@
  */
 package ku.piii.musictableviewfxml;
 
+import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.ID3v24Tag;
 import com.mpatric.mp3agic.InvalidDataException;
@@ -60,18 +61,26 @@ public class TableViewFactory {
             alert.showAndWait();
             return;
         }
+        ID3v2 id3v2Tag = mp3.hasId3v2Tag()
+                ? mp3.getId3v2Tag()
+                : new ID3v24Tag();
 
-        ID3v2 id3v2Tag;
-        if (mp3.hasId3v2Tag()) {
-          id3v2Tag = mp3.getId3v2Tag();
-        } else {
-          // mp3 does not have an ID3v2 tag, let's create one..
-          id3v2Tag = new ID3v24Tag();
-          mp3.setId3v2Tag(id3v2Tag);
+        if (mp3.hasId3v1Tag()) {
+            if (!mp3.hasId3v2Tag()) {
+                ID3v1 id3v1Tag;
+                id3v1Tag = mp3.getId3v1Tag();
+                id3v2Tag.setYear(id3v1Tag.getYear());
+                id3v2Tag.setGenre(id3v1Tag.getGenre());
+                id3v2Tag.setTitle(id3v1Tag.getTitle());
+            }
+            System.out.println("REMOVING V1 TAG");
+            mp3.removeId3v1Tag();
         }
+
         if (editProperty.equals("genre")) id3v2Tag.setGenreDescription(newValue);
         if (editProperty.equals("year" )) id3v2Tag.setYear(newValue);
         if (editProperty.equals("title")) id3v2Tag.setTitle(newValue);
+
         try {
             Logger.getLogger("blah").log(Level.INFO, "writing mp3 to " + newPath);
             mp3.save(newPath);
@@ -88,8 +97,12 @@ public class TableViewFactory {
     public static List<MusicMediaColumnInfo> makeColumnInfoList() {
         List<MusicMediaColumnInfo> myColumnInfoList = new ArrayList<MusicMediaColumnInfo>();
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Path")
-                                             .setMinWidth(200)
+                                             .setVisible(false)
                                              .setProperty("path")
+        );
+        myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Name")
+                                             .setMinWidth(200)
+                                             .setProperty("name")
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Length (secs)")
                                              .setMinWidth(20)
@@ -133,6 +146,8 @@ public class TableViewFactory {
             @SuppressWarnings("rawtypes")
 			TableColumn thisColumn = new TableColumn(myColumnInfo.getHeading());
             thisColumn.setMinWidth(myColumnInfo.getMinWidth());
+            
+            thisColumn.setVisible(myColumnInfo.getVisible());
                
             thisColumn.setCellValueFactory(
                 new PropertyValueFactory<MusicMedia, String>(myColumnInfo.getProperty())

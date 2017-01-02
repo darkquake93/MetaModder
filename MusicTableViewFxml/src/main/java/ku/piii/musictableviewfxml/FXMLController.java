@@ -1,6 +1,7 @@
 package ku.piii.musictableviewfxml;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.List;
@@ -39,61 +40,51 @@ public class FXMLController implements Initializable {
 
     @FXML
     private TextField selectedfolder;
-        
+
     @FXML
     private String pathScannedOnLoad;
-
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setDialogTitle("Select your Media Library mate");
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        chooser.setAcceptAllFileFilterUsed(false);
-
-        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-            System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
-        } else {
-            System.out.println("No Selection ");
-        }
-        selectedfolder.setText(chooser.getSelectedFile().toString());
-        pathScannedOnLoad = chooser.getSelectedFile().toString();
-
-    }
-
-    @FXML
-    private Label addressBook;
 
     @FXML
     private TableView<MusicMedia> tableView;
 
     @FXML
-    private void handleButtonAction2(ActionEvent event) {
-        if (pathScannedOnLoad == null) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setContentText("Sorry, the path is empty");
-            alert.showAndWait();
-            return;
-        };
-        
-        final MusicMediaCollection collection = MUSIC_SERVICE
-                .createMusicMediaCollection(Paths.get(pathScannedOnLoad));
-        dataForTableView = FXCollections.observableArrayList(collection.getMusic());
-
-        dataForTableView.addListener(makeChangeListener(collection));
-
-        List<MusicMediaColumnInfo> myColumnInfoList = TableViewFactory.makeColumnInfoList();
-
-        tableView.setItems(dataForTableView);
-        TableViewFactory.makeTable(tableView, myColumnInfoList);
-        tableView.setEditable(true);
-        // TODO
+    private void handleAboutAction(final ActionEvent event) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Music Manager by Dan \n **FEAR WHAT YOU HEAR**");
+        alert.showAndWait();
     }
 
     @FXML
-    private void handleAboutAction(final ActionEvent event) {
+    private void handleFileOpenPrivate(final ActionEvent event) {
+        libraryChooser(System.getProperty("user.home") + "\\Music");
+    }
+    
+    @FXML
+    private void handleFileOpenPublic(final ActionEvent event) {
+        libraryChooser("C:\\Users\\Public\\Music");
+    }
+    
+    private void libraryChooser(String dirName) {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File(dirName));
+        chooser.setDialogTitle("Browse to Media Library");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.setAcceptAllFileFilterUsed(false);
 
+        if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) return;
+
+        pathScannedOnLoad = chooser.getSelectedFile().toString();
+        selectedfolder.setText(pathScannedOnLoad);
+
+        final MusicMediaCollection collection = 
+            MUSIC_SERVICE.createMusicMediaCollection(Paths.get(pathScannedOnLoad));
+
+        dataForTableView = FXCollections.observableArrayList(collection.getMusic());
+        dataForTableView.addListener(makeChangeListener(collection));
+        List<MusicMediaColumnInfo> myColumnInfoList = TableViewFactory.makeColumnInfoList();
+        tableView.setItems(dataForTableView);
+        TableViewFactory.makeTable(tableView, myColumnInfoList);
+        tableView.setEditable(true);
     }
 
     @FXML
