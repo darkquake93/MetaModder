@@ -30,13 +30,10 @@
         <menus>
             <Menu text="File">
                 <items>
-                    <MenuItem text="New"/>
                     <MenuItem text="Open Private" onAction="#handleFileOpenPrivate"/>
                     <MenuItem text="Open Public" onAction="#handleFileOpenPublic"/>
-                    <MenuItem text="Save"/>
-                    <MenuItem text="Save As"/>
                     <SeparatorMenuItem  />
-                    <MenuItem text="Exit"/>
+                    <MenuItem text="Exit" onAction="#ExitApp"/>
                 </items>
             </Menu>
             <Menu text="Edit">
@@ -44,11 +41,13 @@
                     <MenuItem text="Copy"/>
                     <MenuItem text="Cut"/>
                     <MenuItem text="Paste"/>
+                    <MenuItem text="Copy to folder" onAction="#CopyTo"/>
+                    <MenuItem text="Set for all" onAction="#SetMeta"/>
                 </items>
             </Menu>
             <Menu text="Help">
                 <items>
-                    <MenuItem text="Search" disable="true"/>
+                    <MenuItem text="Greyed out item" disable="true"/>
                     <MenuItem text="Online Manual" visible="false"/>
                     <SeparatorMenuItem />
                     <MenuItem text="About" onAction="#handleAboutAction"/>

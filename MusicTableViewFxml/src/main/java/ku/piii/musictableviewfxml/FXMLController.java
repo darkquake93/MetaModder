@@ -6,6 +6,7 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -50,7 +51,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void handleAboutAction(final ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Music Manager by Dan \n **FEAR WHAT YOU HEAR**");
+        alert.setContentText("Music Manager by Dan \n **Listen to yourself**");
         alert.showAndWait();
     }
 
@@ -58,12 +59,30 @@ public class FXMLController implements Initializable {
     private void handleFileOpenPrivate(final ActionEvent event) {
         libraryChooser(System.getProperty("user.home") + "\\Music");
     }
-    
+
     @FXML
     private void handleFileOpenPublic(final ActionEvent event) {
+        pathScannedOnLoad = "C:\\";
         libraryChooser("C:\\Users\\Public\\Music");
     }
-    
+
+    @FXML
+    private void ExitApp(final ActionEvent event) {
+        Platform.exit();
+    }
+
+    @FXML
+    private void CopyTo(final ActionEvent event) {
+        libraryChooser(pathScannedOnLoad);
+    }
+
+    @FXML
+    private void SetMeta(final ActionEvent event) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Do something here");
+        alert.showAndWait();
+    }
+
     private void libraryChooser(String dirName) {
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new java.io.File(dirName));
@@ -71,13 +90,15 @@ public class FXMLController implements Initializable {
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
 
-        if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) return;
+        if (chooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
 
         pathScannedOnLoad = chooser.getSelectedFile().toString();
         selectedfolder.setText(pathScannedOnLoad);
 
-        final MusicMediaCollection collection = 
-            MUSIC_SERVICE.createMusicMediaCollection(Paths.get(pathScannedOnLoad));
+        final MusicMediaCollection collection
+                = MUSIC_SERVICE.createMusicMediaCollection(Paths.get(pathScannedOnLoad));
 
         dataForTableView = FXCollections.observableArrayList(collection.getMusic());
         dataForTableView.addListener(makeChangeListener(collection));
