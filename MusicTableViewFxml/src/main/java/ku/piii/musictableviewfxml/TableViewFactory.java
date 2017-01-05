@@ -23,6 +23,7 @@ import static java.nio.file.StandardCopyOption.*;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -139,7 +140,9 @@ public class TableViewFactory {
 	static public void  makeTable(TableView<MusicMedia>      tableView, 
                                       List<MusicMediaColumnInfo> myColumnInfoList )
     {
-        
+        tableView.getSelectionModel().setSelectionMode(
+    SelectionMode.MULTIPLE
+);
 
         for(final MusicMediaColumnInfo myColumnInfo : myColumnInfoList)
         {

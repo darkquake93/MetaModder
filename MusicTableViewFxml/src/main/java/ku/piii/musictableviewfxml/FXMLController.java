@@ -78,9 +78,10 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void SetMeta(final ActionEvent event) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Do something here");
-        alert.showAndWait();
+//        Alert alert = new Alert(AlertType.INFORMATION);
+//        alert.setContentText("Do something here");
+//        alert.showAndWait();
+
     }
 
     private void libraryChooser(String dirName) {

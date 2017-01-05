@@ -107,7 +107,6 @@ public class TableViewSample extends Application {
  
         table.setItems(data);
         table.getColumns().addAll(firstNameCol, lastNameCol, emailCol);
- 
         final TextField addFirstName = new TextField();
         addFirstName.setPromptText("First Name");
         addFirstName.setMaxWidth(firstNameCol.getPrefWidth());
