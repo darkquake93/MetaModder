@@ -38,18 +38,17 @@ import ku.piii.model.MusicMediaColumnInfo;
 @SuppressWarnings("restriction")
 public class TableViewFactory {
 
-    
-    static public void processInput(MusicMedia editItem, String newValue, String editProperty)
-    {
-        if ( !editProperty.equals("year") &&
-             !editProperty.equals("genre") &&
-             !editProperty.equals("title")) return;
-        
+    static public void processInput(MusicMedia editItem, String newValue, String editProperty) {
+        if (!editProperty.equals("year")
+                && !editProperty.equals("genre")
+                && !editProperty.equals("title")) {
+            return;
+        }
+
         System.out.println("New value is " + newValue + " for property " + editProperty);
-        
+
         // reference:  https://github.com/mpatric/mp3agic
         //             .. shows how to get or set ID3v2 tags.
-  
         String oldPath = editItem.getPath();
         String newPath = oldPath + ".tmp";
         Mp3File mp3;
@@ -78,9 +77,15 @@ public class TableViewFactory {
             mp3.removeId3v1Tag();
         }
 
-        if (editProperty.equals("genre")) id3v2Tag.setGenreDescription(newValue);
-        if (editProperty.equals("year" )) id3v2Tag.setYear(newValue);
-        if (editProperty.equals("title")) id3v2Tag.setTitle(newValue);
+        if (editProperty.equals("genre")) {
+            id3v2Tag.setGenreDescription(newValue);
+        }
+        if (editProperty.equals("year")) {
+            id3v2Tag.setYear(newValue);
+        }
+        if (editProperty.equals("title")) {
+            id3v2Tag.setTitle(newValue);
+        }
 
         try {
             Logger.getLogger("blah").log(Level.INFO, "writing mp3 to " + newPath);
@@ -98,83 +103,77 @@ public class TableViewFactory {
     public static List<MusicMediaColumnInfo> makeColumnInfoList() {
         List<MusicMediaColumnInfo> myColumnInfoList = new ArrayList<MusicMediaColumnInfo>();
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Path")
-                                             .setVisible(false)
-                                             .setProperty("path")
+                .setVisible(false)
+                .setProperty("path")
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Name")
-                                             .setMinWidth(200)
-                                             .setProperty("name")
+                .setMinWidth(200)
+                .setProperty("name")
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Length (secs)")
-                                             .setMinWidth(20)
-                                             .setProperty("lengthInSeconds")
+                .setMinWidth(20)
+                .setProperty("lengthInSeconds")
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Track Title")
-                                             .setMinWidth(100)
-                                             .setProperty("title")
+                .setMinWidth(100)
+                .setProperty("title")
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Year")
-                                             .setMinWidth(10)
-                                             .setProperty("year")
+                .setMinWidth(10)
+                .setProperty("year")
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Genre")
-                                             .setMinWidth(100)
-                                             .setProperty("genre")
+                .setMinWidth(100)
+                .setProperty("genre")
         );
-       
+
         return myColumnInfoList;
-        
+
     }
 //    private String path;
 //    private Integer lengthInSeconds;
-    
+
 //    private Id3Version id3Version;
     // retrieves from the ID tag:
 //    private String title;
 //    private String year;
 //    private String genre;
-    
-    
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	static public void  makeTable(TableView<MusicMedia>      tableView, 
-                                      List<MusicMediaColumnInfo> myColumnInfoList )
-    {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    static public void makeTable(TableView<MusicMedia> tableView,
+            List<MusicMediaColumnInfo> myColumnInfoList) {
         tableView.getSelectionModel().setSelectionMode(
-    SelectionMode.MULTIPLE
-);
+                SelectionMode.MULTIPLE
+        );
 
-        for(final MusicMediaColumnInfo myColumnInfo : myColumnInfoList)
-        {
+        for (final MusicMediaColumnInfo myColumnInfo : myColumnInfoList) {
             @SuppressWarnings("rawtypes")
-			TableColumn thisColumn = new TableColumn(myColumnInfo.getHeading());
+            TableColumn thisColumn = new TableColumn(myColumnInfo.getHeading());
             thisColumn.setMinWidth(myColumnInfo.getMinWidth());
-            
+
             thisColumn.setVisible(myColumnInfo.getVisible());
-               
+
             thisColumn.setCellValueFactory(
-                new PropertyValueFactory<MusicMedia, String>(myColumnInfo.getProperty())
+                    new PropertyValueFactory<MusicMedia, String>(myColumnInfo.getProperty())
             );
             thisColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-            
+
             thisColumn.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<MusicMedia, String>>() {
-                    @Override
-                    public void handle(TableColumn.CellEditEvent<MusicMedia, 
-                                       String> editEvent) {
-                    
-                        int editRow = editEvent.getTablePosition().getRow();
-                        MusicMedia editItem = editEvent.getTableView()
-                                                        .getItems()
-                                                        .get(editRow);                    
-                        processInput(editItem, 
-                                     editEvent.getNewValue(), 
-                                     myColumnInfo.getProperty());
-                    }
+                    new EventHandler<TableColumn.CellEditEvent<MusicMedia, String>>() {
+                @Override
+                public void handle(TableColumn.CellEditEvent<MusicMedia, String> editEvent) {
+
+                    int editRow = editEvent.getTablePosition().getRow();
+                    MusicMedia editItem = editEvent.getTableView()
+                            .getItems()
+                            .get(editRow);
+                    processInput(editItem,
+                            editEvent.getNewValue(),
+                            myColumnInfo.getProperty());
                 }
+            }
             );
             tableView.getColumns().add(thisColumn);
         }
     }
-     
+
 }

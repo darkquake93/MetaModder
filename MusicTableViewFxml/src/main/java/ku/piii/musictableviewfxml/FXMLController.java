@@ -73,14 +73,28 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void CopyTo(final ActionEvent event) {
-        libraryChooser(pathScannedOnLoad);
+        if (pathScannedOnLoad == null) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("Sorry, the current path is null");
+            alert.showAndWait();
+        } else {
+            libraryChooser(pathScannedOnLoad);
+        }
     }
 
     @FXML
-    private void SetMeta(final ActionEvent event) {
-//        Alert alert = new Alert(AlertType.INFORMATION);
-//        alert.setContentText("Do something here");
-//        alert.showAndWait();
+    private void SetMetaSelected(final ActionEvent event) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Sets Metadata for selected items");
+        alert.showAndWait();
+
+    }
+
+    @FXML
+    private void SetMetaAll(final ActionEvent event) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Sets Metadata for all items");
+        alert.showAndWait();
 
     }
 

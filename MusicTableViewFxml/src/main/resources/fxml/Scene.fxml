@@ -6,8 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.collections.*?>
 
-<GridPane alignment="CENTER" hgap="10.0" vgap="10.0" prefWidth="500"
+<GridPane alignment="CENTER" hgap="10.0" vgap="10.0" prefWidth="750"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="ku.piii.musictableviewfxml.FXMLController">
     <padding>
@@ -18,12 +19,32 @@
     </Label>
     <Label GridPane.rowIndex="2" text="Selected Library Location " fx:id="label" />
     <TextField GridPane.rowIndex="3" fx:id="selectedfolder" editable="false" />
+  <children>
+    <HBox id="HBox" alignment="CENTER" layoutX="41.0" layoutY="224.0" prefWidth="216.0" spacing="5.0" />
+    <ComboBox GridPane.rowIndex="4" GridPane.columnIndex="0" fx:id="selectMeta" editable="false" layoutX="14.0" layoutY="22.0" >
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Title" />
+          <String fx:value="Year" />
+          <String fx:value="Genre" />
+        </FXCollections>
+      </items>
+          <value>
+        <String fx:value="Select Attribute" />
+    </value>
+    </ComboBox>
+  </children>
+    <TextField GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="setTo" text="Set this to.."/>
+    <Button GridPane.rowIndex="6" fx:id="setforselected" text="Set for selected" onAction="#SetMetaSelected" />
+        <Button GridPane.rowIndex="7" fx:id="setforall" text="Set for all" onAction="#SetMetaAll" />
+
     <TableView fx:id="tableView" 
+               GridPane.rowIndex="8"
                GridPane.columnIndex="0" 
                GridPane.columnSpan="1" 
                GridPane.hgrow="ALWAYS" 
                GridPane.vgrow="ALWAYS"        
-               GridPane.rowIndex="4">
+    >
     </TableView>
   
     <MenuBar fx:id="menuBar" onKeyPressed="#handleKeyInput">
@@ -42,7 +63,6 @@
                     <MenuItem text="Cut"/>
                     <MenuItem text="Paste"/>
                     <MenuItem text="Copy to folder" onAction="#CopyTo"/>
-                    <MenuItem text="Set for all" onAction="#SetMeta"/>
                 </items>
             </Menu>
             <Menu text="Help">
