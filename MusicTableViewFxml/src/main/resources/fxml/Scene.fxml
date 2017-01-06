@@ -3,6 +3,7 @@
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
@@ -19,27 +20,39 @@
     </Label>
     <Label GridPane.rowIndex="2" text="Selected Library Location " fx:id="label" />
     <TextField GridPane.rowIndex="3" fx:id="selectedfolder" editable="false" />
-  <children>
-    <HBox id="HBox" alignment="CENTER" layoutX="41.0" layoutY="224.0" prefWidth="216.0" spacing="5.0" />
-    <ComboBox GridPane.rowIndex="4" GridPane.columnIndex="0" fx:id="selectMeta" editable="false" layoutX="14.0" layoutY="22.0" >
-      <items>
-        <FXCollections fx:factory="observableArrayList">
-          <String fx:value="Title" />
-          <String fx:value="Year" />
-          <String fx:value="Genre" />
-        </FXCollections>
-      </items>
-          <value>
-        <String fx:value="Select Attribute" />
-    </value>
-    </ComboBox>
-  </children>
-    <TextField GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="setTo" text="Set this to.."/>
-    <Button GridPane.rowIndex="6" fx:id="setforselected" text="Set for selected" onAction="#SetMetaSelected" />
-        <Button GridPane.rowIndex="7" fx:id="setforall" text="Set for all" onAction="#SetMetaAll" />
+
+    <FlowPane xmlns:fx="http://javafx.com/fxml" GridPane.rowIndex="4" GridPane.columnIndex="0">
+        <ComboBox fx:id="selectMeta" editable="false" layoutX="14.0" layoutY="22.0" >
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding> 
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Title" />
+                    <String fx:value="Year" />
+                    <String fx:value="Genre" />
+                </FXCollections>
+            </items>
+            <value>
+                <String fx:value="Select Attribute.." />
+            </value>
+        </ComboBox>
+        <Label text="     " />
+        <TextField fx:id="setTo" text="Set this to..">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding> 
+        </TextField>
+        <Label text="     " />
+        <Button fx:id="setitem" text="Set Selected" onAction="#SetMeta" >
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding> 
+        </Button>
+    </FlowPane>
 
     <TableView fx:id="tableView" 
-               GridPane.rowIndex="8"
+               GridPane.rowIndex="5"
                GridPane.columnIndex="0" 
                GridPane.columnSpan="1" 
                GridPane.hgrow="ALWAYS" 
@@ -47,12 +60,12 @@
     >
     </TableView>
   
-    <MenuBar fx:id="menuBar" onKeyPressed="#handleKeyInput">
+    <MenuBar fx:id="menuBar">
         <menus>
             <Menu text="File">
                 <items>
-                    <MenuItem text="Open Private" onAction="#handleFileOpenPrivate"/>
-                    <MenuItem text="Open Public" onAction="#handleFileOpenPublic"/>
+                    <MenuItem text="Open Private" onAction="#handleFileOpenPrivate" accelerator="Shortcut+O"/>
+                    <MenuItem text="Open Public" onAction="#handleFileOpenPublic" accelerator="Shortcut+P"/>
                     <SeparatorMenuItem  />
                     <MenuItem text="Exit" onAction="#ExitApp"/>
                 </items>

@@ -19,8 +19,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;  
+import javafx.scene.input.KeyCodeCombination;  
+import javafx.scene.input.KeyCombination;  
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.JFileChooser;
@@ -83,17 +85,9 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void SetMetaSelected(final ActionEvent event) {
+    private void SetMeta(final ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Sets Metadata for selected items");
-        alert.showAndWait();
-
-    }
-
-    @FXML
-    private void SetMetaAll(final ActionEvent event) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Sets Metadata for all items");
+        alert.setContentText("Sets Metadata for selected items (todo)");
         alert.showAndWait();
 
     }
@@ -125,10 +119,11 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleKeyInput(final InputEvent event) {
+       System.out.println("b. necessities");
         if (event instanceof KeyEvent) {
             final KeyEvent keyEvent = (KeyEvent) event;
-            if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.A) {
-                System.out.println("sfsds");
+            if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.O) {
+                System.out.println("Should open Private folder");
             }
         }
     }
