@@ -15,14 +15,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.KeyCode;  
-import javafx.scene.input.KeyCodeCombination;  
-import javafx.scene.input.KeyCombination;  
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.swing.JFileChooser;
@@ -38,6 +40,8 @@ public class FXMLController implements Initializable {
 
     private ObservableList<MusicMedia> dataForTableView;
 
+//    @FXML
+//    private String attrSelect;
     @FXML
     private Label label;
 
@@ -45,10 +49,21 @@ public class FXMLController implements Initializable {
     private TextField selectedfolder;
 
     @FXML
+    private ComboBox selectMeta;
+
+    @FXML
+    private TextField setTo;
+
+    @FXML
     private String pathScannedOnLoad;
 
     @FXML
     private TableView<MusicMedia> tableView;
+
+    @FXML
+    private void clearSetTo(MouseEvent event) {
+        setTo.clear();
+    }
 
     @FXML
     private void handleAboutAction(final ActionEvent event) {
@@ -86,9 +101,42 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void SetMeta(final ActionEvent event) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Sets Metadata for selected items (todo)");
-        alert.showAndWait();
+
+        TableViewFactory myFactory = new TableViewFactory();
+        String titleSelection = selectMeta.getItems().get(0).toString();
+        String yearSelection = selectMeta.getItems().get(1).toString();
+        String genreSelection = selectMeta.getItems().get(2).toString();
+//        Alert alert = new Alert(AlertType.INFORMATION);
+//        alert.setContentText("Sets Metadata for selected items (todo)");
+//        alert.showAndWait();
+
+        System.out.println("First option in attribute drop-down is: " + selectMeta.getItems().get(0));
+        System.out.println("Value to set to is: " + setTo.getText());
+
+        ObservableList<MusicMedia> items = tableView.getSelectionModel().getSelectedItems();
+        for (MusicMedia media : items) {
+            System.out.println("Reference to item is: " + media);
+            System.out.println("Original Genre is: " + media.getGenre());
+            System.out.println("Original Year is: " + media.getYear());
+            System.out.println("Original Title is: " + media.getTitle());
+            try {
+                if (selectMeta.getSelectionModel().getSelectedItem() == genreSelection) {
+                    TableViewFactory.processInput(media, setTo.getText(), "genre");
+                }
+                if (selectMeta.getSelectionModel().getSelectedItem() == yearSelection) {
+                    TableViewFactory.processInput(media, setTo.getText(), "year");
+                }
+                if (selectMeta.getSelectionModel().getSelectedItem() == titleSelection) {
+                    TableViewFactory.processInput(media, setTo.getText(), "title");
+                }
+            } catch (Exception e) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setContentText("Sorry, something went wrong");
+                alert.showAndWait();
+            }
+        }
+tableView.getSelectionModel().getTableView().setVisible(false);
+tableView.getSelectionModel().getTableView().setVisible(true);
 
     }
 
@@ -119,7 +167,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleKeyInput(final InputEvent event) {
-       System.out.println("b. necessities");
+        System.out.println("Key Combination Pressed");
         if (event instanceof KeyEvent) {
             final KeyEvent keyEvent = (KeyEvent) event;
             if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.O) {
@@ -130,7 +178,7 @@ public class FXMLController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        selectedfolder.setText("Use File > Open..");
     }
 
     private static ListChangeListener<MusicMedia> makeChangeListener(final MusicMediaCollection collection) {
@@ -149,8 +197,10 @@ public class FXMLController implements Initializable {
                         }
                     }
                 }
+
             }
         };
+
     }
 
 }

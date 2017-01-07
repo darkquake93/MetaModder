@@ -39,66 +39,74 @@ import ku.piii.model.MusicMediaColumnInfo;
 public class TableViewFactory {
 
     static public void processInput(MusicMedia editItem, String newValue, String editProperty) {
+
         if (!editProperty.equals("year")
                 && !editProperty.equals("genre")
                 && !editProperty.equals("title")) {
             return;
         }
 
-        System.out.println("New value is " + newValue + " for property " + editProperty);
+        System.out.println("Updated " + editProperty + " is: " + newValue);
 
         // reference:  https://github.com/mpatric/mp3agic
         //             .. shows how to get or set ID3v2 tags.
-        String oldPath = editItem.getPath();
-        String newPath = oldPath + ".tmp";
-        Mp3File mp3;
         try {
-            mp3 = new Mp3File(oldPath);
-        } catch (Exception ex) {
-            Logger.getLogger(TableViewFactory.class.getName()).log(Level.SEVERE, null, ex);
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Can no longer locate this mp3 file");
-            alert.showAndWait();
-            return;
-        }
-        ID3v2 id3v2Tag = mp3.hasId3v2Tag()
-                ? mp3.getId3v2Tag()
-                : new ID3v24Tag();
-
-        if (mp3.hasId3v1Tag()) {
-            if (!mp3.hasId3v2Tag()) {
-                ID3v1 id3v1Tag;
-                id3v1Tag = mp3.getId3v1Tag();
-                id3v2Tag.setYear(id3v1Tag.getYear());
-                id3v2Tag.setGenre(id3v1Tag.getGenre());
-                id3v2Tag.setTitle(id3v1Tag.getTitle());
+            String oldPath = editItem.getPath();
+            String newPath = oldPath + ".tmp";
+            Mp3File mp3;
+            try {
+                mp3 = new Mp3File(oldPath);
+            } catch (Exception ex) {
+                Logger.getLogger(TableViewFactory.class.getName()).log(Level.SEVERE, null, ex);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Can no longer locate this mp3 file");
+                alert.showAndWait();
+                return;
             }
-            System.out.println("REMOVING V1 TAG");
-            mp3.removeId3v1Tag();
-        }
+            ID3v2 id3v2Tag = mp3.hasId3v2Tag()
+                    ? mp3.getId3v2Tag()
+                    : new ID3v24Tag();
 
-        if (editProperty.equals("genre")) {
-            id3v2Tag.setGenreDescription(newValue);
-        }
-        if (editProperty.equals("year")) {
-            id3v2Tag.setYear(newValue);
-        }
-        if (editProperty.equals("title")) {
-            id3v2Tag.setTitle(newValue);
-        }
+            if (mp3.hasId3v1Tag()) {
+                if (!mp3.hasId3v2Tag()) {
+                    ID3v1 id3v1Tag;
+                    id3v1Tag = mp3.getId3v1Tag();
+                    id3v2Tag.setYear(id3v1Tag.getYear());
+                    id3v2Tag.setGenre(id3v1Tag.getGenre());
+                    id3v2Tag.setTitle(id3v1Tag.getTitle());
+                }
+                System.out.println("REMOVING V1 TAG");
+                mp3.removeId3v1Tag();
+            }
 
-        try {
-            Logger.getLogger("blah").log(Level.INFO, "writing mp3 to " + newPath);
-            mp3.save(newPath);
-            Files.move(Paths.get(newPath), Paths.get(oldPath), REPLACE_EXISTING);
-        } catch (Exception ex) {
-            Logger.getLogger(TableViewFactory.class.getName()).log(Level.SEVERE, null, ex);
+            if (editProperty.equals("genre")) {
+                id3v2Tag.setGenreDescription(newValue);
+            }
+            if (editProperty.equals("year")) {
+                id3v2Tag.setYear(newValue);
+            }
+            if (editProperty.equals("title")) {
+                id3v2Tag.setTitle(newValue);
+            }
+
+            try {
+                Logger.getLogger("blah").log(Level.INFO, "writing mp3 to " + newPath);
+                mp3.save(newPath);
+                Files.move(Paths.get(newPath), Paths.get(oldPath), REPLACE_EXISTING);
+            } catch (Exception ex) {
+                Logger.getLogger(TableViewFactory.class.getName()).log(Level.SEVERE, null, ex);
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Can not write to this mp3 file");
+                alert.showAndWait();
+                return;
+            }
+        } catch (IllegalArgumentException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Can not write to this mp3 file");
+            alert.setContentText("Sorry didn't recognise that editProperty or Genre, note that the editProperty is case-sensitive and the genre must be a recognised Genre such as Rock!");
             alert.showAndWait();
-            return;
         }
     }
+    
 
     public static List<MusicMediaColumnInfo> makeColumnInfoList() {
         List<MusicMediaColumnInfo> myColumnInfoList = new ArrayList<MusicMediaColumnInfo>();
