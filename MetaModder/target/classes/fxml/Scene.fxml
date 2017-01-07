@@ -15,7 +15,7 @@
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding> 
-    <Label style="-fx-font: NORMAL 20 Tahoma;" text="Music Collection"                
+    <Label style="-fx-font: NORMAL 20 Tahoma;" text="MetaModder"                
            GridPane.columnIndex="0" GridPane.rowIndex="1" fx:id="addressBook">
     </Label>
     <Label GridPane.rowIndex="2" text="Selected Library Location " fx:id="label" />
@@ -23,9 +23,9 @@
 
     <FlowPane xmlns:fx="http://javafx.com/fxml" GridPane.rowIndex="4" GridPane.columnIndex="0">
         <ComboBox fx:id="selectMeta" editable="false" layoutX="14.0" layoutY="22.0" >
-    <padding>
-        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-    </padding> 
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding> 
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Title" />
@@ -64,10 +64,17 @@
         <menus>
             <Menu text="File">
                 <items>
-                    <MenuItem text="Open Private" onAction="#handleFileOpenPrivate" accelerator="Shortcut+O"/>
-                    <MenuItem text="Open Public" onAction="#handleFileOpenPublic" accelerator="Shortcut+P"/>
+                    <MenuItem text="Open Private" onAction="#handleFileOpenPrivate" accelerator="Shortcut+1"/>
+                    <MenuItem text="Open Public" onAction="#handleFileOpenPublic" accelerator="Shortcut+2"/>
+                    <MenuItem text="Open Collection A" onAction="#handleFileOpenA" accelerator="Shortcut+3"/>
+                    <MenuItem text="Open Collection B" onAction="#handleFileOpenB" accelerator="Shortcut+4"/>
                     <SeparatorMenuItem  />
                     <MenuItem text="Exit" onAction="#ExitApp"/>
+                </items>
+            </Menu>
+            <Menu text="Tools">
+                <items>
+                    <MenuItem text="Get BPM" onAction="#getBPM" accelerator="Shortcut+B"/>
                 </items>
             </Menu>
             <Menu text="Edit">

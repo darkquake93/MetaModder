@@ -1,10 +1,15 @@
 package ku.piii.musictableviewfxml;
 
-import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
@@ -16,7 +21,8 @@ public class MainApp extends Application {
         Scene scene = new Scene(parent);
         scene.getStylesheets().add("/styles/Styles.css");
 
-        stage.setTitle("Assignment Testing");
+        stage.setTitle("MetaModder");
+        stage.getIcons().add(new Image("audio.png"));
         stage.setScene(scene);
         stage.show();
     }

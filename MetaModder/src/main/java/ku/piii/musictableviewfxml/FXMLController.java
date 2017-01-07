@@ -1,11 +1,17 @@
 package ku.piii.musictableviewfxml;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -46,6 +52,9 @@ public class FXMLController implements Initializable {
     private Label label;
 
     @FXML
+    private URI bpmLink;
+
+    @FXML
     private TextField selectedfolder;
 
     @FXML
@@ -68,7 +77,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void handleAboutAction(final ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Music Manager by Dan \n **Listen to yourself**");
+        alert.setContentText("MetaModder \n A Music Manager by Daniel Carnovale \n **Listen to yourself**");
         alert.showAndWait();
     }
 
@@ -81,6 +90,16 @@ public class FXMLController implements Initializable {
     private void handleFileOpenPublic(final ActionEvent event) {
         pathScannedOnLoad = "C:\\";
         libraryChooser("C:\\Users\\Public\\Music");
+    }
+
+    @FXML
+    private void handleFileOpenA(final ActionEvent event) {
+        libraryChooser("../test-music-files/collection-A");
+    }
+    
+        @FXML
+    private void handleFileOpenB(final ActionEvent event) {
+        libraryChooser("../test-music-files/collection-B");
     }
 
     @FXML
@@ -100,7 +119,21 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void SetMeta(final ActionEvent event) {
+    private void getBPM(final ActionEvent event) throws Exception {
+        try {
+
+            String fileName = "https://www.google.co.uk/search?q=" + tableView.getSelectionModel().getSelectedItem().getName();
+            String fileNameNoSpaces = fileName.replaceAll(" ", "+") + "+BPM";
+            Desktop.getDesktop().browse(new URI(fileNameNoSpaces));
+        } catch (IOException ex) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setContentText("Sorry, fileName attribute not found or there are no items in the table");
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void SetMeta(final ActionEvent event) throws URISyntaxException {
 
         TableViewFactory myFactory = new TableViewFactory();
         String titleSelection = selectMeta.getItems().get(0).toString();
@@ -119,6 +152,7 @@ public class FXMLController implements Initializable {
             System.out.println("Original Genre is: " + media.getGenre());
             System.out.println("Original Year is: " + media.getYear());
             System.out.println("Original Title is: " + media.getTitle());
+
             try {
                 if (selectMeta.getSelectionModel().getSelectedItem() == genreSelection) {
                     TableViewFactory.processInput(media, setTo.getText(), "genre");
@@ -135,8 +169,6 @@ public class FXMLController implements Initializable {
                 alert.showAndWait();
             }
         }
-tableView.getSelectionModel().getTableView().setVisible(false);
-tableView.getSelectionModel().getTableView().setVisible(true);
 
     }
 
@@ -179,6 +211,9 @@ tableView.getSelectionModel().getTableView().setVisible(true);
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         selectedfolder.setText("Use File > Open..");
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Welcome to MetaModder!");
+        alert.showAndWait();
     }
 
     private static ListChangeListener<MusicMedia> makeChangeListener(final MusicMediaCollection collection) {

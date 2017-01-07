@@ -11,7 +11,7 @@
     <artifactId>MusicTableViewFxml</artifactId>
     <packaging>jar</packaging>
 
-    <name>MusicTableViewFxml</name>
+    <name>MetaModder</name>
 
     <dependencies>
         <dependency>
