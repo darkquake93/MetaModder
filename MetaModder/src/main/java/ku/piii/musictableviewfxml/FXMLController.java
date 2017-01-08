@@ -46,13 +46,12 @@ public class FXMLController implements Initializable {
 
 //    @FXML
 //    private String attrSelect;
-    
     @FXML
     private ImageView imageView;
-    
+
     @FXML
     double scale = Font.getDefault().getSize() / 12.0;
-    
+
     @FXML
     private boolean isRecursive;
 
@@ -84,9 +83,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleAboutAction(final ActionEvent event) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("MetaModder \n A Music Manager by Daniel Carnovale \n **Listen to yourself**");
-        alert.showAndWait();
+        showAlert("About MetaModder", "A Music Manager by Daniel Carnovale \n Created to help manage your audio library Metadata \n **Listen to yourself**", "/soundbars.gif");
     }
 
     @FXML
@@ -102,12 +99,12 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleFileOpenA(final ActionEvent event) {
-        libraryChooser("../test-music-files/collection-A");
+        libraryChooser("resources/test-music-files/collection-A");
     }
 
     @FXML
     private void handleFileOpenB(final ActionEvent event) {
-        libraryChooser("../test-music-files/collection-B");
+        libraryChooser("resources/test-music-files/collection-B");
     }
 
     @FXML
@@ -161,13 +158,13 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void getBPM(final ActionEvent event){
+    private void getBPM(final ActionEvent event) {
 
         callBrowser("https://www.bpmdatabase.com/music/search/?q=", "B");
     }
 
     @FXML
-    private void getWiki(final ActionEvent event){
+    private void getWiki(final ActionEvent event) {
 
         callBrowser("https://en.wikipedia.org/w/index.php?search=", "W");
 
@@ -250,8 +247,8 @@ public class FXMLController implements Initializable {
             }
         }
     }
-    
-        @FXML
+
+    @FXML
     private void setIconScene(Alert alert) {
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image(this.getClass().getResource("/audio.png").toString()));
@@ -260,12 +257,19 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         selectedfolder.setText("Use File > Open..");
+        showAlert("Welcome to MetaModder!", "By Daniel Carnovale - K1336511", "/soundbars.gif");
+    }
+
+    public void showAlert(String header, String content, String graphic) {
+
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Welcome to MetaModder!");
-        imageView = new ImageView(new Image(getClass().getResourceAsStream("/soundbars.gif")));
-		imageView.setFitWidth(48.0 * scale);
-		imageView.setFitHeight(48.0 * scale);
-		alert.setGraphic(imageView);
+        alert.setHeaderText(header);
+
+        alert.setContentText(content);
+        imageView = new ImageView(new Image(getClass().getResourceAsStream(graphic)));
+        imageView.setFitWidth(48.0 * scale);
+        imageView.setFitHeight(48.0 * scale);
+        alert.setGraphic(imageView);
         alert.setGraphic(imageView);
         setIconScene(alert);
         alert.showAndWait();

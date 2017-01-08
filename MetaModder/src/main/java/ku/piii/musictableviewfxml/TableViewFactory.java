@@ -97,6 +97,7 @@ public class TableViewFactory {
             }
         } catch (IllegalArgumentException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Something went wrong!");
             alert.setContentText("Sorry didn't recognise that editProperty or Genre, note that the editProperty is case-sensitive and the genre must be a recognised Genre such as Rock!");
             alert.showAndWait();
         }
