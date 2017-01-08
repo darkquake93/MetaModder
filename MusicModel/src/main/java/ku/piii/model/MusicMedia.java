@@ -17,6 +17,7 @@ public class MusicMedia {
     private String year;
     private String genre;
     private String name;
+ 
 
     public MusicMedia() {
     }
@@ -59,8 +60,9 @@ public class MusicMedia {
         this.year = year;
     }
 
-    public Integer getLengthInSeconds() {
-        return lengthInSeconds;
+    public String getLengthInSeconds() {
+        if (lengthInSeconds == null) return "";
+        return lengthInSeconds.toString();
     }
 
     public void setLengthInSeconds(Integer lengthInSeconds) {

@@ -19,6 +19,7 @@ public class MP3PathToMusicMapperImpl implements MP3PathToMusicMapper {
         m.setTitle(tag.getTitle());
         m.setYear(tag.getYear());
         m.setGenre(tag.getGenreDescription());
+        //Tag 1 style does not seem to have length
 
         return m;
     }
@@ -28,6 +29,7 @@ public class MP3PathToMusicMapperImpl implements MP3PathToMusicMapper {
         if (tag != null) {
             m.setTitle(tag.getTitle());
             m.setYear(tag.getYear());
+            m.setLengthInSeconds(tag.getLength());
             m.setGenre(tag.getGenreDescription());
         }
         return m;

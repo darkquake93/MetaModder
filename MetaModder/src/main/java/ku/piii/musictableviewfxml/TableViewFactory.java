@@ -8,11 +8,7 @@ package ku.piii.musictableviewfxml;
 import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.ID3v24Tag;
-import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
-import com.mpatric.mp3agic.NotSupportedException;
-import com.mpatric.mp3agic.UnsupportedTagException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,7 +16,6 @@ import java.util.logging.Logger;
 import java.nio.file.*;
 import static java.nio.file.StandardCopyOption.*;
 
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.SelectionMode;
@@ -109,30 +104,37 @@ public class TableViewFactory {
     
 
     public static List<MusicMediaColumnInfo> makeColumnInfoList() {
+        String editableStyle = "-fx-background-color:#dfd;-fx-color:active:#004";
         List<MusicMediaColumnInfo> myColumnInfoList = new ArrayList<MusicMediaColumnInfo>();
-        myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Path")
-                .setVisible(false)
-                .setProperty("path")
-        );
-        myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Name")
+        myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Filename")
                 .setMinWidth(200)
+                .setEditable(false)
                 .setProperty("name")
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Length (secs)")
                 .setMinWidth(20)
+                .setEditable(false)
                 .setProperty("lengthInSeconds")
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Track Title")
                 .setMinWidth(100)
                 .setProperty("title")
+                //.setStyle(editableStyle)
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Year")
                 .setMinWidth(10)
                 .setProperty("year")
+                //.setStyle(editableStyle)
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Genre")
                 .setMinWidth(100)
                 .setProperty("genre")
+                //.setStyle(editableStyle)
+        );
+        myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Path")
+                .setVisible(true)
+                .setEditable(false)
+                .setProperty("path")
         );
 
         return myColumnInfoList;
@@ -159,6 +161,8 @@ public class TableViewFactory {
             thisColumn.setMinWidth(myColumnInfo.getMinWidth());
 
             thisColumn.setVisible(myColumnInfo.getVisible());
+            thisColumn.setEditable(myColumnInfo.getEditable());
+            //thisColumn.setStyle(myColumnInfo.getStyle());
 
             thisColumn.setCellValueFactory(
                     new PropertyValueFactory<MusicMedia, String>(myColumnInfo.getProperty())

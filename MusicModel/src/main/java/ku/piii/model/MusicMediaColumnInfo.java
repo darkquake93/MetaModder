@@ -40,17 +40,39 @@ public class MusicMediaColumnInfo {
         return this;
     }
 
+    public String getStyle() {
+        return style;
+    }
+
+    public MusicMediaColumnInfo setStyle(String style) {
+        this.style = style;
+        return this;
+    }
+
     public boolean getVisible() {
         return visible;
     }
+
     public MusicMediaColumnInfo setVisible(boolean new_visible) {
         this.visible = new_visible;
         return this;
     }
     
+    public boolean getEditable() {
+        return editable;
+    }
+
+    public MusicMediaColumnInfo setEditable(boolean editable) {
+        this.editable = editable;
+        return this;
+    }
+
     private boolean visible = true;
+    private boolean editable = true;
     private String heading;
     private int minWidth;
     private String property;
+    private String style = "-fx-background-color:#fcc";
+
     
 }
