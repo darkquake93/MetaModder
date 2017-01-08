@@ -24,10 +24,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javax.swing.JFileChooser;
 import ku.piii.model.MusicMedia;
@@ -44,6 +46,13 @@ public class FXMLController implements Initializable {
 
 //    @FXML
 //    private String attrSelect;
+    
+    @FXML
+    private ImageView imageView;
+    
+    @FXML
+    double scale = Font.getDefault().getSize() / 12.0;
+    
     @FXML
     private boolean isRecursive;
 
@@ -241,14 +250,24 @@ public class FXMLController implements Initializable {
             }
         }
     }
+    
+        @FXML
+    private void setIconScene(Alert alert) {
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(this.getClass().getResource("/audio.png").toString()));
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         selectedfolder.setText("Use File > Open..");
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setContentText("Welcome to MetaModder!");
-        
-        
+        imageView = new ImageView(new Image(getClass().getResourceAsStream("/soundbars.gif")));
+		imageView.setFitWidth(48.0 * scale);
+		imageView.setFitHeight(48.0 * scale);
+		alert.setGraphic(imageView);
+        alert.setGraphic(imageView);
+        setIconScene(alert);
         alert.showAndWait();
     }
 
