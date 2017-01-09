@@ -46,6 +46,13 @@ public class FXMLController implements Initializable {
 
 //    @FXML
 //    private String attrSelect;
+    
+    @FXML
+    private boolean alertShowing;
+    
+    @FXML
+    private boolean alertResult;
+    
     @FXML
     private ImageView imageView;
 
@@ -260,7 +267,7 @@ public class FXMLController implements Initializable {
         showAlert("Welcome to MetaModder!", "By Daniel Carnovale - K1336511", "/soundbars.gif");
     }
 
-    public void showAlert(String header, String content, String graphic) {
+    public boolean showAlert(String header, String content, String graphic) {
 
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setHeaderText(header);
@@ -272,7 +279,13 @@ public class FXMLController implements Initializable {
         alert.setGraphic(imageView);
         alert.setGraphic(imageView);
         setIconScene(alert);
+//        alert.showAndWait();
+        alert.show();
+        alertShowing = alert.isShowing();
+        alert.close();
         alert.showAndWait();
+        System.out.println("showAlert method output for alertShowing: " + alertShowing);
+        return alertShowing;
     }
 
     private static ListChangeListener<MusicMedia> makeChangeListener(final MusicMediaCollection collection) {
