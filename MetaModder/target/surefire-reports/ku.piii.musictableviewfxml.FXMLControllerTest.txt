@@ -1,17 +1,20 @@
 -------------------------------------------------------------------------------
 Test set: ku.piii.musictableviewfxml.FXMLControllerTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.638 sec <<< FAILURE!
-testShowAlert(ku.piii.musictableviewfxml.FXMLControllerTest)  Time elapsed: 1.433 sec  <<< ERROR!
-java.lang.RuntimeException: Internal graphics not initialized yet
-	at com.sun.glass.ui.Screen.getScreens(Screen.java:70)
-	at com.sun.glass.ui.Screen.getMainScreen(Screen.java:61)
-	at com.sun.javafx.font.PrismFontFactory.getSystemFontSize(PrismFontFactory.java:1911)
-	at com.sun.javafx.font.PrismFontLoader.getSystemFontSize(PrismFontLoader.java:240)
-	at javafx.scene.text.Font.getDefaultSystemFontSize(Font.java:71)
-	at javafx.scene.text.Font.getDefault(Font.java:86)
-	at ku.piii.musictableviewfxml.FXMLController.<init>(FXMLController.java:60)
-	at ku.piii.musictableviewfxml.FXMLControllerTest.testShowAlert(FXMLControllerTest.java:54)
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 sec <<< FAILURE!
+testShowAlert(ku.piii.musictableviewfxml.FXMLControllerTest)  Time elapsed: 0 sec  <<< ERROR!
+java.lang.IllegalStateException: Not on FX application thread; currentThread = main
+	at com.sun.javafx.tk.Toolkit.checkFxUserThread(Toolkit.java:236)
+	at com.sun.javafx.tk.quantum.QuantumToolkit.checkFxUserThread(QuantumToolkit.java:423)
+	at javafx.stage.Stage.<init>(Stage.java:241)
+	at javafx.stage.Stage.<init>(Stage.java:227)
+	at javafx.scene.control.HeavyweightDialog$1.<init>(HeavyweightDialog.java:52)
+	at javafx.scene.control.HeavyweightDialog.<init>(HeavyweightDialog.java:52)
+	at javafx.scene.control.Dialog.<init>(Dialog.java:263)
+	at javafx.scene.control.Alert.<init>(Alert.java:245)
+	at javafx.scene.control.Alert.<init>(Alert.java:223)
+	at ku.piii.musictableviewfxml.FXMLController.showAlert(FXMLController.java:272)
+	at ku.piii.musictableviewfxml.FXMLControllerTest.testShowAlert(FXMLControllerTest.java:55)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -33,7 +36,7 @@ java.lang.RuntimeException: Internal graphics not initialized yet
 	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
 	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
 	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:45)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:53)
 	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:123)
 	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:104)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)

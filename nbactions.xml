@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
         <action>
-            <actionName>CUSTOM-install build all</actionName>
-            <displayName>install build all</displayName>
+            <actionName>CUSTOM-install and build all</actionName>
+            <displayName>install and build all</displayName>
             <goals>
                 <goal>install</goal>
             </goals>

@@ -1,12 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: ku.piii.fxtableoutofbox.TestMainApp
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.474 sec <<< FAILURE!
-isTableViewListCorrect(ku.piii.fxtableoutofbox.TestMainApp)  Time elapsed: 0.517 sec  <<< ERROR!
-java.lang.RuntimeException: Unable to show stage
-	at org.loadui.testfx.GuiTest.showNodeInStage(GuiTest.java:119)
-	at org.loadui.testfx.GuiTest.showNodeInStage(GuiTest.java:103)
-	at org.loadui.testfx.GuiTest.setupStage(GuiTest.java:93)
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 8.07 sec <<< FAILURE!
+isTableViewListCorrect(ku.piii.fxtableoutofbox.TestMainApp)  Time elapsed: 6.488 sec  <<< ERROR!
+org.loadui.testfx.exceptions.NoNodesFoundException: No nodes matched '#button'. Screenshot saved as H:\FXgitrepo\PIIIdc\MetaModder\screenshot1484069915355.png.
+	at org.loadui.testfx.GuiTest.assertNodesFound(GuiTest.java:244)
+	at org.loadui.testfx.GuiTest.findAll(GuiTest.java:250)
+	at org.loadui.testfx.GuiTest.findByCssSelector(GuiTest.java:432)
+	at org.loadui.testfx.GuiTest.find(GuiTest.java:300)
+	at ku.piii.fxtableoutofbox.TestMainApp.isTableViewListCorrect(TestMainApp.java:56)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -14,7 +16,8 @@ java.lang.RuntimeException: Unable to show stage
 	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
 	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
 	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:24)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
 	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
 	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
@@ -36,16 +39,3 @@ java.lang.RuntimeException: Unable to show stage
 	at org.apache.maven.surefire.booter.SurefireStarter.invokeProvider(SurefireStarter.java:175)
 	at org.apache.maven.surefire.booter.SurefireStarter.runSuitesInProcessWhenForked(SurefireStarter.java:107)
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:68)
-Caused by: java.lang.RuntimeException: java.lang.ThreadDeath
-	at org.loadui.testfx.utils.FXTestUtils.awaitEvents(FXTestUtils.java:104)
-	at org.loadui.testfx.utils.FXTestUtils.invokeAndWait(FXTestUtils.java:143)
-	at org.loadui.testfx.utils.FXTestUtils.invokeAndWait(FXTestUtils.java:167)
-	at org.loadui.testfx.utils.FXTestUtils.bringToFront(FXTestUtils.java:53)
-	at org.loadui.testfx.GuiTest.showNodeInStage(GuiTest.java:115)
-	... 31 more
-Caused by: java.lang.ThreadDeath
-	at java.lang.Thread.stop(Thread.java:850)
-	at org.loadui.testfx.utils.UserInputDetector.userInputDetected(UserInputDetector.java:58)
-	at org.loadui.testfx.utils.UserInputDetector.assertPointsAreEqual(UserInputDetector.java:42)
-	at org.loadui.testfx.utils.UserInputDetector.run(UserInputDetector.java:27)
-	at java.lang.Thread.run(Thread.java:745)
