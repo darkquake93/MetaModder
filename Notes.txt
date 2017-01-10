@@ -1,0 +1,1 @@
+Sometimes there will be "Package not found" errors. Expand dependencies folder, right click any of them and click manually install artifact. Browse to the project for which its package cannot be loaded, and find the jar file. load it in, and try running the program again. If it still fails, only thing left to do is try a install build-all on the build profiles section.

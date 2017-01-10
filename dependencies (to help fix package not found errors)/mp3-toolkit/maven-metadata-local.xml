@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>ku.piii</groupId>
+  <artifactId>mp3-toolkit</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20170108184936</lastUpdated>
+  </versioning>
+</metadata>

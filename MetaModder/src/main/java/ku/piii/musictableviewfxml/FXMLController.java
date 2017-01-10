@@ -267,7 +267,7 @@ public class FXMLController implements Initializable {
         showAlert("Welcome to MetaModder!", "By Daniel Carnovale - K1336511", "/soundbars.gif");
     }
 
-    public boolean showAlert(String header, String content, String graphic) {
+    public void showAlert(String header, String content, String graphic) {
 
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setHeaderText(header);
@@ -285,7 +285,6 @@ public class FXMLController implements Initializable {
         alert.close();
         alert.showAndWait();
         System.out.println("showAlert method output for alertShowing: " + alertShowing);
-        return alertShowing;
     }
 
     private static ListChangeListener<MusicMedia> makeChangeListener(final MusicMediaCollection collection) {
