@@ -38,7 +38,7 @@ public class TableViewFactory {
         if (!editProperty.equals("year")
                 && !editProperty.equals("genre")
                 && !editProperty.equals("title")) {
-            return;
+            throw new IllegalArgumentException("Only changes to year, genre or title are supported");
         }
 
         System.out.println("Updated " + editProperty + " is: " + newValue);
@@ -52,11 +52,7 @@ public class TableViewFactory {
             try {
                 mp3 = new Mp3File(oldPath);
             } catch (Exception ex) {
-                Logger.getLogger(TableViewFactory.class.getName()).log(Level.SEVERE, null, ex);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Can no longer locate this mp3 file");
-                alert.showAndWait();
-                return;
+                throw new IllegalArgumentException("Can no longer locate this mp3 file: " + ex.getMessage());
             }
             ID3v2 id3v2Tag = mp3.hasId3v2Tag()
                     ? mp3.getId3v2Tag()
@@ -89,17 +85,13 @@ public class TableViewFactory {
                 mp3.save(newPath);
                 Files.move(Paths.get(newPath), Paths.get(oldPath), REPLACE_EXISTING);
             } catch (Exception ex) {
-                Logger.getLogger(TableViewFactory.class.getName()).log(Level.SEVERE, null, ex);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Can not write to this mp3 file");
-                alert.showAndWait();
-                return;
+                throw new IllegalArgumentException("Can not write to this mp3 file: " + ex.getMessage());
             }
-        } catch (IllegalArgumentException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Something went wrong!");
-            alert.setContentText("Sorry didn't recognise that editProperty or Genre, note that the editProperty is case-sensitive and the genre must be a recognised Genre such as Rock!");
-            alert.showAndWait();
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(
+                    "Sorry didn't recognise that editProperty or Genre, \n" +
+                    "Note that the editProperty is case-sensitive \n" +
+                    "and the genre must be a recognised Genre such as Rock! :" + ex.getMessage());
         }
     }
     
@@ -179,9 +171,17 @@ public class TableViewFactory {
                     MusicMedia editItem = editEvent.getTableView()
                             .getItems()
                             .get(editRow);
-                    processInput(editItem,
-                            editEvent.getNewValue(),
-                            myColumnInfo.getProperty());
+                    try {
+                        processInput(editItem,
+                                editEvent.getNewValue(),
+                                myColumnInfo.getProperty());
+                    } catch(Exception e) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setHeaderText("Saving changes..");
+                        alert.setContentText(e.getMessage());
+                        alert.showAndWait();
+                        return;
+                    }
                 }
             }
             );

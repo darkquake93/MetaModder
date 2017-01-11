@@ -91,7 +91,10 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleAboutAction(final ActionEvent event) {
-        showAlert("About MetaModder", "A Music Manager by Daniel Carnovale \n Created to help manage your audio library Metadata \n **Listen to yourself**", "/soundbars.gif");
+        showAlert("About MetaModder",
+                "A Music Manager by Daniel Carnovale \n\n" +
+                "Created to help manage your audio library Metadata \n\n" +
+                "**Listen to yourself**", "/soundbars.gif");
     }
 
     @FXML
