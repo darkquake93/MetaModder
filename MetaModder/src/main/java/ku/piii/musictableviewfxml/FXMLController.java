@@ -267,7 +267,7 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         selectedfolder.setText("Use File > Open..");
-        //showAlert("Welcome to MetaModder!", "By Daniel Carnovale - K1336511", "/soundbars.gif");
+        showAlert("Welcome to MetaModder!", "By Daniel Carnovale - K1336511", "/soundbars.gif");
     }
 
     public void showAlert(String header, String content, String graphic) {

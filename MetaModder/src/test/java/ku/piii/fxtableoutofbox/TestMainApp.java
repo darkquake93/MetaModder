@@ -45,8 +45,8 @@ import org.loadui.testfx.exceptions.NoNodesFoundException;
 @SuppressWarnings("restriction")
 public class TestMainApp extends GuiTest {
 
-    final String pathScannedOnLoad = "../test-music-files/collection-A";
-    private final static MusicService MUSIC_SERVICE = MusicServiceFactory.getMusicServiceInstance();
+    String pathScannedOnLoad = "../test-music-files/collection-A";
+    static MusicService MUSIC_SERVICE = MusicServiceFactory.getMusicServiceInstance();
 
     @Override
     protected Parent getRootNode() {
@@ -63,48 +63,75 @@ public class TestMainApp extends GuiTest {
     @Test
     public void isTableViewListCorrect() throws InterruptedException, AWTException {
 
+        //GUI TEST SUITE
+        //MUST NOT MOVE MOUSE WHILE THIS TEST PERFORMS!!
+        //Note that Collection A (being tested) can be modified from the GUI window by the user and the test will still succeed, because the test is verifying that the data loaded into the tableview is the same as the data on the disk. This is because when the user overtypes any values the change is IMMEDIATELY written to the disk.
         Robot bot = new Robot();
+        // seems all key-sequences must be followed by a delay..
+        
+        // Welcome message causes "timeout exception", though not critical and tests proceed
+        // Sequence to dismiss welcome box
+        bot.keyPress(KeyEvent.VK_ENTER);
+        bot.delay(200);
+        bot.keyRelease(KeyEvent.VK_ENTER);
+        bot.delay(200);
 
-//        this.push(KeyCode.CONTROL, KeyCode.DIGIT3);
-bot.keyPress(KeyEvent.VK_CONTROL);
-bot.keyPress(KeyEvent.VK_3);
-this.sleep(150);
-bot.keyRelease(KeyEvent.VK_CONTROL);
-bot.keyRelease(KeyEvent.VK_3);
-this.sleep(150);
+        // hot-key sequence to load "Collection A" ..
+        bot.keyPress(KeyEvent.VK_CONTROL);
+        bot.keyPress(KeyEvent.VK_3);
+        bot.delay(200);
+        bot.keyRelease(KeyEvent.VK_3);
+        bot.keyRelease(KeyEvent.VK_CONTROL);
+        bot.delay(200);
+
+        // alt-tab sequence to force file-open dialog to front..
+        // NOTE: not needed in normal operation, but seems to be necessary to the test environment
         bot.keyPress(KeyEvent.VK_ALT);
         bot.keyPress(KeyEvent.VK_TAB);
-        Thread.sleep(100);
-        bot.keyRelease(KeyEvent.VK_ALT);
+        bot.delay(200);
         bot.keyRelease(KeyEvent.VK_TAB);
-        Thread.sleep(100);
-//        this.closeCurrentWindow();
+        bot.keyRelease(KeyEvent.VK_ALT);
+        bot.delay(200);
+
+        // sequence to accept this library by pressing Enter..
         bot.keyPress(KeyEvent.VK_ENTER);
+        bot.delay(200);
         bot.keyRelease(KeyEvent.VK_ENTER);
+        bot.delay(2000);
 
-        Thread.sleep(500);
+        //Reports back the path to read from file
+        System.out.println("WILL OPEN " + pathScannedOnLoad);
 
-        final MusicMediaCollection expected = MUSIC_SERVICE
+        //Creates collection from that directory
+        MusicMediaCollection fromFile = MUSIC_SERVICE
                 .createMusicMediaCollection(Paths.get(pathScannedOnLoad));
-        final TableView t = getTableView("#tableView");
 
-        final ObservableList<MusicMedia> items = t.getItems();
-        assertEquals(9, items.size());
-        final MusicMediaCollection actual = new MusicMediaCollection();
-        items.forEach(m -> actual.addMusicMedia(m));
-System.out.println("BLAH BLAH LOOK HERE" + actual.getMusic().toString());
-System.out.println("BLAH BLAH LOOK HERE 2" + expected.getMusic().toString());
+        //Identify the table control and load up its contents
+        TableView t = getTableView("#tableView");
+        ObservableList<MusicMedia> view_items = t.getItems();
 
-        final List<MusicMediaEquality> expectedMusic = expected.getMusic().stream().map(MusicMediaEquality::new)
-                .collect(Collectors.toList());
+        //Check that the number of items in the table is equivalent to the exact number known to be in Collection A
+        assertEquals(9, view_items.size());
 
-        final List<MusicMediaEquality> actualMusic = actual.getMusic().stream().map(MusicMediaEquality::new)
-                .collect(Collectors.toList());
+        //Create a true MusicMediaCollection from the ObservableList
+        MusicMediaCollection fromView = new MusicMediaCollection();
+        view_items.forEach(m -> fromView.addMusicMedia(m));
 
-System.out.println("BLAH BLAH LOOK HERE 3" + actualMusic);
-System.out.println("BLAH BLAH LOOK HERE 4" + expectedMusic);
-expectedMusic.addAll(actualMusic);
-        assertThat(actualMusic, containsInAnyOrder(expectedMusic.toArray()));
+        //Get simple lists of media from the Collections
+        List<MusicMedia> file_list = fromFile.getMusic();
+        List<MusicMedia> view_list = fromView.getMusic();
+        //Loop over the music media entries and report back the entry number
+        //Compare the attributes
+        for (int i = 0; i < file_list.size(); i++) {
+            System.out.println("checking media entry number " + i);
+
+            assertEquals(file_list.get(i).getTitle(),
+                    view_list.get(i).getTitle());
+            assertEquals(file_list.get(i).getGenre(),
+                    view_list.get(i).getGenre());
+            assertEquals(file_list.get(i).getYear(),
+                    view_list.get(i).getYear());
+        }
 
     }
 
