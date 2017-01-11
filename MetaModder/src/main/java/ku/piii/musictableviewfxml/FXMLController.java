@@ -1,6 +1,7 @@
 package ku.piii.musictableviewfxml;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -106,12 +107,12 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleFileOpenA(final ActionEvent event) {
-        libraryChooser("resources/test-music-files/collection-A");
+        libraryChooser("../test-music-files/collection-A");
     }
 
     @FXML
     private void handleFileOpenB(final ActionEvent event) {
-        libraryChooser("resources/test-music-files/collection-B");
+        libraryChooser("../test-music-files/collection-B");
     }
 
     @FXML
@@ -220,7 +221,9 @@ public class FXMLController implements Initializable {
 
     private void libraryChooser(String dirName) {
         JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new java.io.File(dirName));
+        File file = new java.io.File(dirName);
+        System.out.println("dirName was " + dirName + ", setting current directory to : " + file.toString());
+        chooser.setCurrentDirectory(file);
         chooser.setDialogTitle("Browse to Media Library");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.setAcceptAllFileFilterUsed(false);
@@ -264,7 +267,7 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         selectedfolder.setText("Use File > Open..");
-        showAlert("Welcome to MetaModder!", "By Daniel Carnovale - K1336511", "/soundbars.gif");
+        //showAlert("Welcome to MetaModder!", "By Daniel Carnovale - K1336511", "/soundbars.gif");
     }
 
     public void showAlert(String header, String content, String graphic) {
@@ -277,12 +280,7 @@ public class FXMLController implements Initializable {
         imageView.setFitWidth(48.0 * scale);
         imageView.setFitHeight(48.0 * scale);
         alert.setGraphic(imageView);
-        alert.setGraphic(imageView);
         setIconScene(alert);
-//        alert.showAndWait();
-        alert.show();
-        alertShowing = alert.isShowing();
-        alert.close();
         alert.showAndWait();
         System.out.println("showAlert method output for alertShowing: " + alertShowing);
     }

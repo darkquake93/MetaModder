@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: ku.piii.fxtableoutofbox.TestMainApp
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 8.07 sec <<< FAILURE!
-isTableViewListCorrect(ku.piii.fxtableoutofbox.TestMainApp)  Time elapsed: 6.488 sec  <<< ERROR!
-org.loadui.testfx.exceptions.NoNodesFoundException: No nodes matched '#button'. Screenshot saved as H:\FXgitrepo\PIIIdc\MetaModder\screenshot1484069915355.png.
-	at org.loadui.testfx.GuiTest.assertNodesFound(GuiTest.java:244)
-	at org.loadui.testfx.GuiTest.findAll(GuiTest.java:250)
-	at org.loadui.testfx.GuiTest.findByCssSelector(GuiTest.java:432)
-	at org.loadui.testfx.GuiTest.find(GuiTest.java:300)
-	at ku.piii.fxtableoutofbox.TestMainApp.isTableViewListCorrect(TestMainApp.java:56)
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 8.026 sec <<< FAILURE!
+isTableViewListCorrect(ku.piii.fxtableoutofbox.TestMainApp)  Time elapsed: 7.576 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<100> but was:<0>
+	at org.junit.Assert.fail(Assert.java:88)
+	at org.junit.Assert.failNotEquals(Assert.java:834)
+	at org.junit.Assert.assertEquals(Assert.java:645)
+	at org.junit.Assert.assertEquals(Assert.java:631)
+	at ku.piii.fxtableoutofbox.TestMainApp.isTableViewListCorrect(TestMainApp.java:78)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -27,7 +27,7 @@ org.loadui.testfx.exceptions.NoNodesFoundException: No nodes matched '#button'. 
 	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
 	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
 	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:53)
+	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:45)
 	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:123)
 	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:104)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)

@@ -1,11 +1,17 @@
 package ku.piii.fxtableoutofbox;
 
+import java.awt.AWTException;
+import java.awt.RenderingHints.Key;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -24,10 +30,13 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
 import ku.piii.model.MusicMedia;
 import ku.piii.model.MusicMediaCollection;
 import ku.piii.music.MusicService;
 import ku.piii.music.MusicServiceFactory;
+import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 
 import org.loadui.testfx.controls.TableViews;
 import org.loadui.testfx.exceptions.NoNodesFoundException;
@@ -43,27 +52,30 @@ public class TestMainApp extends GuiTest {
         Parent parent = null;
         try {
             parent = FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
-            return parent;
         } catch (IOException ex) {
-            // TODO ...
+            Assert.fail("no Scene.fxml definition file");
+            return null;
         }
         return parent;
     }
 
     @Test
-    public void isTableViewListCorrect() throws InterruptedException {
+    public void isTableViewListCorrect() throws InterruptedException, AWTException {
 
-        final Button button = (Button) find("#button");
-        click(button);
-
+        Robot bot = new Robot();
+        
+        this.push(KeyCode.CONTROL, KeyCode.DIGIT3);
+        bot.keyPress(KeyEvent.VK_ENTER);
+        bot.keyRelease(KeyEvent.VK_ENTER);
+        
         Thread.sleep(1000);
-
+        
         final MusicMediaCollection expected = MUSIC_SERVICE
                 .createMusicMediaCollection(Paths.get(pathScannedOnLoad));
         final TableView t = getTableView("#tableView");
 
         final ObservableList<MusicMedia> items = t.getItems();
-
+        assertEquals(100, items.size());
         final MusicMediaCollection actual = new MusicMediaCollection();
         items.forEach(m -> actual.addMusicMedia(m));
 
