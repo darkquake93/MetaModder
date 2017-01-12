@@ -9,6 +9,8 @@ import com.mpatric.mp3agic.ID3v1;
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.ID3v24Tag;
 import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.NotSupportedException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -45,56 +47,56 @@ public class TableViewFactory {
 
         // reference:  https://github.com/mpatric/mp3agic
         //             .. shows how to get or set ID3v2 tags.
+        String oldPath = editItem.getPath();
+        String newPath = oldPath + ".tmp";
+        Mp3File mp3;
         try {
-            String oldPath = editItem.getPath();
-            String newPath = oldPath + ".tmp";
-            Mp3File mp3;
-            try {
-                mp3 = new Mp3File(oldPath);
-            } catch (Exception ex) {
-                throw new IllegalArgumentException("Can no longer locate this mp3 file: " + ex.getMessage());
-            }
-            ID3v2 id3v2Tag = mp3.hasId3v2Tag()
-                    ? mp3.getId3v2Tag()
-                    : new ID3v24Tag();
-
-            if (mp3.hasId3v1Tag()) {
-                if (!mp3.hasId3v2Tag()) {
-                    ID3v1 id3v1Tag;
-                    id3v1Tag = mp3.getId3v1Tag();
-                    id3v2Tag.setYear(id3v1Tag.getYear());
-                    id3v2Tag.setGenre(id3v1Tag.getGenre());
-                    id3v2Tag.setTitle(id3v1Tag.getTitle());
-                }
-                System.out.println("REMOVING V1 TAG");
-                mp3.removeId3v1Tag();
-            }
-
-            if (editProperty.equals("genre")) {
-                id3v2Tag.setGenreDescription(newValue);
-            }
-            if (editProperty.equals("year")) {
-                id3v2Tag.setYear(newValue);
-            }
-            if (editProperty.equals("title")) {
-                id3v2Tag.setTitle(newValue);
-            }
-
-            try {
-                Logger.getLogger("blah").log(Level.INFO, "writing mp3 to " + newPath);
-                mp3.save(newPath);
-                Files.move(Paths.get(newPath), Paths.get(oldPath), REPLACE_EXISTING);
-            } catch (Exception ex) {
-                throw new IllegalArgumentException("Can not write to this mp3 file: " + ex.getMessage());
-            }
-        } catch (IllegalArgumentException ex) {
-            throw new IllegalArgumentException(
-                    "Sorry didn't recognise that editProperty or Genre, \n" +
-                    "Note that the editProperty is case-sensitive \n" +
-                    "and the genre must be a recognised Genre such as Rock! :" + ex.getMessage());
+            mp3 = new Mp3File(oldPath);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException("Can no longer locate this mp3 file: " + ex.getMessage());
         }
+        ID3v2 id3v2Tag = mp3.hasId3v2Tag()
+                ? mp3.getId3v2Tag()
+                : new ID3v24Tag();
+
+        if (mp3.hasId3v1Tag()) {
+            if (!mp3.hasId3v2Tag()) {
+                ID3v1 id3v1Tag;
+                id3v1Tag = mp3.getId3v1Tag();
+                id3v2Tag.setYear(id3v1Tag.getYear());
+                id3v2Tag.setGenre(id3v1Tag.getGenre());
+                id3v2Tag.setTitle(id3v1Tag.getTitle());
+            }
+            System.out.println("REMOVING V1 TAG");
+            mp3.removeId3v1Tag();
+        }
+
+        if (editProperty.equals("genre")) {
+            id3v2Tag.setGenreDescription(newValue);
+        }
+        if (editProperty.equals("year")) {
+            id3v2Tag.setYear(newValue);
+        }
+        if (editProperty.equals("title")) {
+            id3v2Tag.setTitle(newValue);
+        }
+
+        if (!mp3.hasId3v2Tag()) {
+            mp3.setId3v2Tag(id3v2Tag);
+        }
+
+        Logger.getLogger("blah").log(Level.INFO, "writing mp3 to " + newPath);
+
+        try {
+            mp3.save(newPath);
+            Files.move(Paths.get(newPath), Paths.get(oldPath), REPLACE_EXISTING);
+        } catch (IOException ex) {
+            Logger.getLogger(TableViewFactory.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotSupportedException ex) {
+            Logger.getLogger(TableViewFactory.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
-    
 
     public static List<MusicMediaColumnInfo> makeColumnInfoList() {
         String editableStyle = "-fx-background-color:#dfd;-fx-color:active:#004";
@@ -112,17 +114,17 @@ public class TableViewFactory {
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Track Title")
                 .setMinWidth(100)
                 .setProperty("title")
-                //.setStyle(editableStyle)
+        //.setStyle(editableStyle)
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Year")
                 .setMinWidth(10)
                 .setProperty("year")
-                //.setStyle(editableStyle)
+        //.setStyle(editableStyle)
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Genre")
                 .setMinWidth(100)
                 .setProperty("genre")
-                //.setStyle(editableStyle)
+        //.setStyle(editableStyle)
         );
         myColumnInfoList.add(new MusicMediaColumnInfo().setHeading("Path")
                 .setVisible(true)
@@ -175,7 +177,7 @@ public class TableViewFactory {
                         processInput(editItem,
                                 editEvent.getNewValue(),
                                 myColumnInfo.getProperty());
-                    } catch(Exception e) {
+                    } catch (Exception e) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setHeaderText("Saving changes..");
                         alert.setContentText(e.getMessage());

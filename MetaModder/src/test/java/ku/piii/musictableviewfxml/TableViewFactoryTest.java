@@ -80,9 +80,7 @@ public class TableViewFactoryTest {
         editItem.setTitle("Song that is not yet made");
         String newValue = "Rock";
         String editProperty = "genre";
-        String msg = "Sorry didn't recognise that editProperty or Genre, \n" +
-                     "Note that the editProperty is case-sensitive \n" +
-                     "and the genre must be a recognised Genre such as Rock! :Can no longer locate this mp3 file: null";
+        String msg = "Can no longer locate this mp3 file: null";
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage(msg);
         TableViewFactory.processInput(editItem, newValue, editProperty);

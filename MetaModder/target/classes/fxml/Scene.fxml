@@ -81,6 +81,9 @@
                 <items>
                     <MenuItem text="BPM" onAction="#getBPM" accelerator="Shortcut+B"/>
                     <MenuItem text="Wiki" onAction="#getWiki" accelerator="Shortcut+W"/>
+                    <MenuItem text="Charts (Unfinished)" onAction="#getCharts"/>
+                    <MenuItem text="Filename -&gt; Title" onAction="#setFilenameTitle" accelerator="Shortcut+T"/>
+                    <MenuItem text="Filename &lt;- Title" onAction="#setTitleFilename" accelerator="Shortcut+F"/>
                 </items>
             </Menu>
             <!--

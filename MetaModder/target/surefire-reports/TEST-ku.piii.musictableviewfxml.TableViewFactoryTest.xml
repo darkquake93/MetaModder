@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="3" failures="0" name="ku.piii.musictableviewfxml.TableViewFactoryTest" time="0.006" errors="0" skipped="0">
+<testsuite tests="3" failures="0" name="ku.piii.musictableviewfxml.TableViewFactoryTest" time="0.01" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_112\jre\bin"/>
@@ -63,5 +63,5 @@
   </properties>
   <testcase classname="ku.piii.musictableviewfxml.TableViewFactoryTest" name="testProcessInput1" time="0"/>
   <testcase classname="ku.piii.musictableviewfxml.TableViewFactoryTest" name="testProcessInput2" time="0"/>
-  <testcase classname="ku.piii.musictableviewfxml.TableViewFactoryTest" name="testProcessInput3" time="0"/>
+  <testcase classname="ku.piii.musictableviewfxml.TableViewFactoryTest" name="testProcessInput3" time="0.001"/>
 </testsuite>
